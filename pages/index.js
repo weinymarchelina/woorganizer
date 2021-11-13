@@ -1,16 +1,11 @@
-import Head from "next/head";
-import Navbar from "../components/Navbar";
+import { useSession } from "next-auth/client";
 
-export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>CoolCompany | Landing</title>
-        <meta name="keywords" content="Business Organizer" />
-      </Head>
-      <div>
-        <h1>Landing Page</h1>
-      </div>
-    </>
-  );
+export default function Profile() {
+  const [session, loading] = useSession();
+
+  if (loading) return <p>Loading...</p>;
+
+  if (!session) return <p>You are not authenciated</p>;
+
+  return <p>You are authenciated</p>;
 }

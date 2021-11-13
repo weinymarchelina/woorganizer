@@ -15,12 +15,17 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/signup">
+          <Link href="/auth">
+            <a>Auth</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/auth/signup">
             <a>Sign Up</a>
           </Link>
         </li>
         <li>
-          <Link href="/login">
+          <Link href="/auth/login">
             <a>Login</a>
           </Link>
         </li>
