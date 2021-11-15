@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
     },
     password: String,
     image: {
@@ -19,22 +18,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    role: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
 
 const User = mongoose.models.users || mongoose.model("users", UserSchema);
 module.exports = User;
-
-// const UserSchema = new mongoose.Schema({
-//   username: String,
-//   email: {
-//     type: String,
-//     // required: [true, "Please input email"],
-//     unique: true,
-//   },
-//   hash: String,
-//   salt: String,
-// });
-
-// mongoose.model("User", UserSchema);

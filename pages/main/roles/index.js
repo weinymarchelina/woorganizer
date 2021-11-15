@@ -1,17 +1,19 @@
 import { getSession } from "next-auth/client";
 import Link from "next/link";
 
-export default function Main({ user }) {
+export default function Roles({ user }) {
   return (
     <div>
-      <h1>Dashboard(Protected Route)</h1>
+      <h1>Decide your Roles</h1>
       <p>
-        Welcome to dashboard: <b>{user.name}</b>
+        Welcome <b>{user.name}</b>, let's set your roles!
       </p>
-      <p>{user.email}</p>
-
+      <p>Are you a business owner or an employee?</p>
       <button>
-        <Link href="/main/roles">Let's set your roles here!</Link>
+        <Link href="/main/roles/owner">I'm a business owner</Link>
+      </button>
+      <button>
+        <Link href="/main/roles/employee">I'm an employee</Link>
       </button>
     </div>
   );
@@ -24,16 +26,6 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         destination: "/auth",
-        permanent: false,
-      },
-    };
-  }
-
-  if (!session.user.role) {
-    console.log("No role yet, redirecting you to roles");
-    return {
-      redirect: {
-        destination: "/main/roles",
         permanent: false,
       },
     };
