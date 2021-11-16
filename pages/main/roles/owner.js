@@ -9,6 +9,8 @@ const Owner = (session) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  console.log(session);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,6 +99,15 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  // if (role) {
+  //   return {
+  //     redirect: {
+  //       destination: "/main/home",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: { session },

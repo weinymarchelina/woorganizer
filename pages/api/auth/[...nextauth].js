@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import bcrypt from "bcrypt";
-// import User from "../../../models/User";
 const User = require("../../../models/User");
 const dbConnect = require("../../../config/database").dbConnect;
 
@@ -10,6 +9,7 @@ dbConnect();
 export default NextAuth({
   session: {
     jwt: true,
+    maxAge: 30 * 24 * 60 * 60, //30 days expired
   },
   providers: [
     Providers.Google({
@@ -35,11 +35,8 @@ export default NextAuth({
         const password = credentials.password;
 
         const user = await User.findOne({ email });
-        console.log("Loading");
-        console.log(user);
 
         if (user) {
-          console.log("Checking user");
           return checkUser({ password, user });
         }
 
@@ -51,49 +48,45 @@ export default NextAuth({
     encryption: true,
   },
   secret: process.env.SECRET,
+  database: process.env.DB_STRING,
   callbacks: {
-    async jwt(token, account) {
-      if (account?.accessToken) {
-        token.accessToken = account.accessToken;
-      }
-      return token;
+    session: async (session, user) => {
+      session.userId = user.sub;
+
+      return Promise.resolve(session);
     },
   },
   // pages: {
   //   signIn: "/auth",
   // },
-  database: process.env.DB_STRING,
-  callbacks: {
-    session: async (session, user) => {
-      session.userId = user.sub;
-      return Promise.resolve(session);
-    },
-  },
 });
 
-const checkUser = async ({ password, user }) => {
-  console.log(user);
-  console.log(password);
-
+const checkUser = async ({ password, user, roleFunc }) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     console.log("Email or password is incorrect.");
     throw new Error("Email or password is incorrect.");
   }
 
-  console.log("Login success!");
   return user;
 };
 
-const registerUser = async ({ email, password, name }) => {
+const registerUser = async ({ email, password, name, roleFunc }) => {
   const salt = await bcrypt.genSalt();
   const hashPass = await bcrypt.hash(password, salt);
   const newUser = new User({ name, email, password: hashPass });
 
-  await newUser.save().then((user) => {
-    console.log("aye");
-    console.log(user);
-  });
+  await newUser
+    .save()
+    .then((user) => {})
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        msg: err,
+      });
+    });
+
+  console.log(newUser);
 
   return newUser;
 };

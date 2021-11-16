@@ -6,9 +6,14 @@ import {
   signOut,
   useSession,
 } from "next-auth/client";
+import { RoleContext } from "../../Contexts/RoleContext";
+import { useContext } from "react";
 
 const Login = () => {
   const [session, loadingSession] = useSession();
+  const [role, setRole] = useContext(RoleContext);
+
+  console.log(`The role: ${role}`);
 
   if (loadingSession) {
     return <p>Loading...</p>;
@@ -25,6 +30,7 @@ const Login = () => {
 
       {!session && (
         <>
+          <p>No role yet: {role}</p>
           <button onClick={() => signIn()}>Sign In</button>
         </>
       )}
@@ -34,6 +40,7 @@ const Login = () => {
           <h4>You are logged as: {session.user.name}</h4>
           <div>
             <h4>Email: {session.user.email}</h4>
+            <p>Role: {role}</p>
             <br />
             {session.user.image && (
               <span>
@@ -43,7 +50,14 @@ const Login = () => {
           </div>
           <br />
           <br />
-          <button onClick={() => signOut()}>Sign Out</button>
+          <button
+            onClick={() => {
+              setRole("employee");
+              signOut();
+            }}
+          >
+            Sign Out
+          </button>
         </>
       )}
     </div>

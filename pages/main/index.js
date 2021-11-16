@@ -20,6 +20,8 @@ export default function Main({ user }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
 
+  console.log(session);
+
   if (!session) {
     return {
       redirect: {
@@ -29,15 +31,15 @@ export async function getServerSideProps(context) {
     };
   }
 
-  if (!session.user.role) {
-    console.log("No role yet, redirecting you to roles");
-    return {
-      redirect: {
-        destination: "/main/roles",
-        permanent: false,
-      },
-    };
-  }
+  // if (!session.user.role) {
+  //   console.log("No role yet, redirecting you to roles");
+  //   return {
+  //     redirect: {
+  //       destination: "/main/roles",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: { user: session.user },

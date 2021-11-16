@@ -1,18 +1,17 @@
 const dbConnect = require("../../../config/database").dbConnect;
-import Business from "../../../models/business";
+import Business from "../../../models/Business";
+import User, { findByIdAndUpdate } from "../../../models/User";
 import { getSession } from "next-auth/client";
+import handler from "../../handler";
 import bcrypt from "bcrypt";
-import nextConnect from "next-connect";
+import { RoleContext } from "../../Contexts/RoleContext";
+import { useContext } from "react";
 
 dbConnect();
 
-export default async function handler(req, res) {
-  switch (req.method) {
-    case "POST":
-      await createBusiness(req, res);
-      break;
-  }
-}
+export default handler.post(async (req, res) => {
+  await createBusiness(req, res);
+});
 
 const createBusiness = async (req, res) => {
   try {
@@ -20,6 +19,8 @@ const createBusiness = async (req, res) => {
     if (!session) {
       return res.status(400).json({ msg: "Invalid Authentication!" });
     }
+
+    const setRole = useContext(RoleContext);
 
     const { name, field, phone, email, password } = req.body;
 
@@ -52,7 +53,19 @@ const createBusiness = async (req, res) => {
     const newBusiness = new Business(data);
 
     await newBusiness.save();
-    res.json({ msg: "Success! Create a new business acc." });
+
+    // Update user's roles to Owner
+    await User.findByIdAndUpdate({ _id: session.userId }, { role: "owner" })
+      .then((updatedUser) => {
+        console.log(updatedUser);
+
+        setRole("owner");
+
+        res.status(200).json({ msg: "Success! Updated your role." });
+      })
+      .catch((error) => {
+        res.status(500).json({ msg: `Something is Wrong: ${error.message}` });
+      });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
