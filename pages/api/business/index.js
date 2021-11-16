@@ -1,11 +1,9 @@
 const dbConnect = require("../../../config/database").dbConnect;
-import Business from "../../../models/Business";
-import User, { findByIdAndUpdate } from "../../../models/User";
+import Business from "../../../models/business";
+import User, { findByIdAndUpdate } from "../../../models/user";
 import { getSession } from "next-auth/client";
 import handler from "../../handler";
 import bcrypt from "bcrypt";
-import { RoleContext } from "../../Contexts/RoleContext";
-import { useContext } from "react";
 
 dbConnect();
 
@@ -19,8 +17,6 @@ const createBusiness = async (req, res) => {
     if (!session) {
       return res.status(400).json({ msg: "Invalid Authentication!" });
     }
-
-    const setRole = useContext(RoleContext);
 
     const { name, field, phone, email, password } = req.body;
 
@@ -58,8 +54,6 @@ const createBusiness = async (req, res) => {
     await User.findByIdAndUpdate({ _id: session.userId }, { role: "owner" })
       .then((updatedUser) => {
         console.log(updatedUser);
-
-        setRole("owner");
 
         res.status(200).json({ msg: "Success! Updated your role." });
       })

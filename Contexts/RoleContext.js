@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-const User = require("../models/User");
+const User = require("../models/user");
 
 export const RoleContext = createContext();
 export const RoleUpdateContext = createContext();
@@ -15,11 +15,24 @@ export const useRoleUpdate = () => {
 export const RoleProvider = ({ children }) => {
   const [role, setRole] = useState("employee");
 
-  const updateRole = (userId) => {
-    const user = await User.findOne({ _id: userId });
-    if (user.role === "owner") {
-      setRole(owner);
-    }
+  const updateRole = async (userId) => {
+    // console.log(user);
+    // const newUser = await User.findOne({
+    //   _id: userId,
+    // });
+    // console.log(newUser);
+    // if (newUser.role === "owner") {
+    //   setRole(owner);
+    // }
+
+    await User.findOne({
+      _id: userId,
+    }).then((newUser) => {
+      if (newUser.role === "owner") {
+        setRole(owner);
+      }
+    });
+
     return;
   };
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import { useRole, useRoleUpdate } from "../Contexts/RoleContext";
 import axios from "axios";
 
 const Owner = (session) => {
@@ -9,10 +11,13 @@ const Owner = (session) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const router = useRouter();
+
   console.log(session);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const updateRole = useRoleUpdate();
 
     try {
       const res = await axios.post("/api/business", {
@@ -29,7 +34,12 @@ const Owner = (session) => {
       setPhone("");
       setEmail("");
       setPassword("");
+
+      // updateRole(session.user);
+
+      router.push("/auth");
     } catch (err) {
+      console.log(err);
       throw new Error(err.response.data.msg);
     }
   };
@@ -99,15 +109,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
-  // if (role) {
-  //   return {
-  //     redirect: {
-  //       destination: "/main/home",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: { session },
