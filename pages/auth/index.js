@@ -1,37 +1,30 @@
-import Head from "next/head";
-import {
-  getSession,
-  providers,
-  signIn,
-  signOut,
-  useSession,
-} from "next-auth/client";
-import { RoleContext } from "../../Contexts/RoleContext";
-import { useContext } from "react";
+import { signIn, useSession } from "next-auth/client";
+import { useRole } from "../../Contexts/RoleContext";
+import Link from "next/link";
 
 const Login = () => {
   const [session, loadingSession] = useSession();
-  const [role, setRole] = useContext(RoleContext);
 
-  console.log(`The role: ${role}`);
-
-  if (loadingSession) {
-    return <p>Loading...</p>;
+  if (session) {
+    router.push("/main");
   }
 
   return (
     <div>
-      <Head>
-        <title>NextAuth Google Authentication</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <h1>Google Authentication with NextAuth </h1>
+      {loadingSession && <p>Loading...</p>}
 
       {!session && (
         <>
-          <p>No role yet: {role}</p>
-          <button onClick={() => signIn()}>Sign In</button>
+          <p>Let's get Started.</p>
+          <button
+            onClick={() =>
+              signIn(null, {
+                callbackUrl: `${window.location.origin}/main`,
+              })
+            }
+          >
+            Sign In
+          </button>
         </>
       )}
 
@@ -50,25 +43,13 @@ const Login = () => {
           </div>
           <br />
           <br />
-          <button
-            onClick={() => {
-              setRole("employee");
-              signOut();
-            }}
-          >
-            Sign Out
+          <button>
+            <Link href="/main">Go to Dashboard</Link>
           </button>
         </>
       )}
     </div>
   );
 };
-
-// Login.getInitialsProps = async (context) => {
-//   return {
-//     providers: await providers(context),
-//     session: await getSession(context),
-//   };
-// };
 
 export default Login;

@@ -1,6 +1,6 @@
 const dbConnect = require("../../../config/database").dbConnect;
 import Business from "../../../models/business";
-import User, { findByIdAndUpdate } from "../../../models/user";
+import User from "../../../models/user";
 import { getSession } from "next-auth/client";
 import handler from "../../handler";
 import bcrypt from "bcrypt";
@@ -18,20 +18,25 @@ const createBusiness = async (req, res) => {
       return res.status(400).json({ msg: "Invalid Authentication!" });
     }
 
-    const { name, field, phone, email, password } = req.body;
+    const { name, field, phone, email, password } = await req.body;
 
+    // check for same email
+    const acc = await Business.findOne({ email });
+    if (acc) {
+      return res.status(400).json({ msg: "Email has already taken!" });
+    }
+
+    // hash password
     const salt = await bcrypt.genSalt();
     const hashPass = await bcrypt.hash(password, salt);
 
     const team = [
       {
-        user: {
-          name: session.user.name,
-          email: session.user.email,
-          image: session.user.image,
-          userId: session.userId,
-          role: "owner",
-        },
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+        userId: session.userId,
+        role: "Owner",
       },
     ];
 
@@ -46,16 +51,32 @@ const createBusiness = async (req, res) => {
 
     if (!data) return res.status(400).json({ msg: "Please add data." });
 
+    // save business
     const newBusiness = new Business(data);
-
-    await newBusiness.save();
+    const resBusiness = await newBusiness.save();
 
     // Update user's roles to Owner
-    await User.findByIdAndUpdate({ _id: session.userId }, { role: "owner" })
-      .then((updatedUser) => {
-        console.log(updatedUser);
+    await User.findByIdAndUpdate(
+      { _id: session.userId },
+      { role: "Owner", businessId: resBusiness._id }
+    )
+      .then((newUserData) => {
+        console.log(newUserData);
+        console.log(resBusiness);
 
-        res.status(200).json({ msg: "Success! Updated your role." });
+        const { name, field, phone, email, image, _id } = resBusiness;
+        const businessData = {
+          name,
+          field,
+          phone,
+          email,
+          image,
+          _id,
+        };
+
+        res.status(200).json({
+          businessData,
+        });
       })
       .catch((error) => {
         res.status(500).json({ msg: `Something is Wrong: ${error.message}` });

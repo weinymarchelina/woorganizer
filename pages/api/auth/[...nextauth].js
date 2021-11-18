@@ -21,7 +21,7 @@ export default NextAuth({
     Providers.Credentials({
       name: "Credentials",
       credentials: {
-        name: { label: "Name", type: "text", placeholder: "doctorstrange" },
+        name: { label: "Name", type: "text", placeholder: "Stephen Strange" },
         email: {
           label: "Email",
           type: "email ",
@@ -30,9 +30,11 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const name = credentials.name;
-        const email = credentials.email;
-        const password = credentials.password;
+        // const name = credentials.name;
+        // const email = credentials.email;
+        // const password = credentials.password;
+
+        const { name, email, password } = credentials;
 
         const user = await User.findOne({ email });
 
@@ -61,7 +63,7 @@ export default NextAuth({
   // },
 });
 
-const checkUser = async ({ password, user, roleFunc }) => {
+const checkUser = async ({ password, user }) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     console.log("Email or password is incorrect.");
@@ -71,22 +73,18 @@ const checkUser = async ({ password, user, roleFunc }) => {
   return user;
 };
 
-const registerUser = async ({ email, password, name, roleFunc }) => {
-  const salt = await bcrypt.genSalt();
-  const hashPass = await bcrypt.hash(password, salt);
-  const newUser = new User({ name, email, password: hashPass });
+const registerUser = async ({ email, password, name }) => {
+  try {
+    const salt = await bcrypt.genSalt();
+    const hashPass = await bcrypt.hash(password, salt);
 
-  await newUser
-    .save()
-    .then((user) => {})
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        msg: err,
-      });
+    const newUser = new User({ name, email, password: hashPass });
+    await newUser.save();
+    return newUser;
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      msg: err,
     });
-
-  console.log(newUser);
-
-  return newUser;
+  }
 };

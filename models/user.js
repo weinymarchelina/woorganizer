@@ -20,7 +20,11 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "employee",
+      default: "Employee",
+    },
+    businessId: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }

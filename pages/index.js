@@ -1,27 +1,30 @@
 import { getSession } from "next-auth/client";
-import { useEffect } from "react";
-import { useRole, useRoleUpdate } from "../Contexts/RoleContext";
-import axios from "axios";
+import Link from "next/link";
 
 export default function Profile({ session }) {
-  const [role, setRole] = useRole();
-
-  const checkRole = async () => {
-    const res = await axios.get("/api/role");
-    const currentRole = res.data.currentRole;
-    setRole(currentRole);
-  };
-
-  useEffect(() => {
-    checkRole();
-  }, []);
-
   return (
     <div>
-      <p>{session.userId}</p>
-      <p>Your role: {role}</p>
-      {session && <p>You are authenciated</p>}
-      {!session && <p>You are not authenciated</p>}
+      <h1>CoolCompany</h1>
+      <p>Best business organizer tool.</p>
+
+      {!session?.user && (
+        <div>
+          <button>
+            <Link href="/auth/signup">Sign Up</Link>
+          </button>
+          <button>
+            <Link href="/auth/login">Login</Link>
+          </button>
+        </div>
+      )}
+
+      {session?.user && (
+        <div>
+          <button>
+            <Link href="/main">Go to Dashboard</Link>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -31,10 +34,7 @@ export async function getServerSideProps(context) {
 
   if (!session) {
     return {
-      redirect: {
-        destination: "/auth",
-        permanent: false,
-      },
+      props: { session: null },
     };
   }
 

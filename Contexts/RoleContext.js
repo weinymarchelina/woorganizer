@@ -1,46 +1,35 @@
 import { createContext, useContext, useState } from "react";
-const User = require("../models/user");
-
 export const RoleContext = createContext();
-export const RoleUpdateContext = createContext();
+export const BusinessContext = createContext();
+export const AuthContext = createContext();
 
 // custom hooks
 export const useRole = () => {
   return useContext(RoleContext);
 };
-export const useRoleUpdate = () => {
-  return useContext(RoleUpdateContext);
+export const useBusiness = () => {
+  return useContext(BusinessContext);
+};
+export const useAuthData = () => {
+  return useContext(AuthContext);
 };
 
 export const RoleProvider = ({ children }) => {
-  const [role, setRole] = useState("employee");
+  const [role, setRole] = useState("Employee");
+  const [business, setBusiness] = useState(null);
+  const [auth, setAuth] = useState();
 
-  const updateRole = async (userId) => {
-    // console.log(user);
-    // const newUser = await User.findOne({
-    //   _id: userId,
-    // });
-    // console.log(newUser);
-    // if (newUser.role === "owner") {
-    //   setRole(owner);
-    // }
-
-    await User.findOne({
-      _id: userId,
-    }).then((newUser) => {
-      if (newUser.role === "owner") {
-        setRole(owner);
-      }
-    });
-
-    return;
-  };
+  // const updateRole = async () => {
+  //   console.log("Hello");
+  // };
 
   return (
-    <RoleContext.Provider value={[role, setRole]}>
-      <RoleUpdateContext.Provider value={updateRole}>
-        {children}
-      </RoleUpdateContext.Provider>
-    </RoleContext.Provider>
+    <AuthContext.Provider value={[auth, setAuth]}>
+      <RoleContext.Provider value={[role, setRole]}>
+        <BusinessContext.Provider value={[business, setBusiness]}>
+          {children}
+        </BusinessContext.Provider>
+      </RoleContext.Provider>
+    </AuthContext.Provider>
   );
 };
