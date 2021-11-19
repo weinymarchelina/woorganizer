@@ -19,7 +19,7 @@ const Navbar = () => {
             <a>Auth</a>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/auth/signup">
             <a>Sign Up</a>
           </Link>
@@ -28,7 +28,7 @@ const Navbar = () => {
           <Link href="/auth/login">
             <a>Login</a>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/settings">
             <a>Settings</a>

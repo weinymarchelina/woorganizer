@@ -32,9 +32,12 @@ const checkStatus = async (req, res) => {
       console.log("No Business here:");
       console.log(user?.businessId);
 
+      console.log();
+
       return res.status(200).json({
         currentRole: role,
         businessInfo: null,
+        note: user.note,
       });
     }
 
@@ -57,6 +60,7 @@ const checkStatus = async (req, res) => {
     res.status(200).json({
       currentRole: role,
       businessInfo,
+      msg: user.note?.msg,
     });
   } catch (err) {
     console.log("Alert!");

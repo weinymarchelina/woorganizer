@@ -1,6 +1,7 @@
 import { signOut, getSession } from "next-auth/client";
-import useCheck from "../customHooks/useCheck";
+import useCheck from "../../customHooks/useCheck";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function Settings({ session }) {
   const { user } = session;
@@ -34,6 +35,10 @@ export default function Settings({ session }) {
           <p>{hide ? "Owner" : role}</p>
 
           <br />
+
+          <button>
+            <Link href="/settings/business">Business Profile</Link>
+          </button>
 
           <button
             onClick={() => {
