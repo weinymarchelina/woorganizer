@@ -8,7 +8,6 @@ import useCheck from "../../customHooks/useCheck";
 const Owner = () => {
   const { business, isLoading } = useCheck();
   const router = useRouter();
-  // const [business, setBusiness] = useBusiness();
 
   if (business) {
     router.push("/main");

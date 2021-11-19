@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useRole, useBusiness } from "../Contexts/RoleContext";
+import { useRole, useBusiness, useStorage } from "../Contexts/RoleContext";
 import axios from "axios";
 
 const useCheck = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [role, setRole] = useRole();
   const [business, setBusiness] = useBusiness();
+  const [storage, setStorage] = useStorage();
   const [msg, setMsg] = useState(null);
 
   const checkStatus = async () => {
@@ -34,6 +35,8 @@ const useCheck = () => {
     business,
     setBusiness,
     msg,
+    storage,
+    setStorage,
   };
 };
 

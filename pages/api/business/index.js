@@ -1,5 +1,6 @@
 const dbConnect = require("../../../config/database").dbConnect;
 import Business from "../../../models/business";
+import Inventory from "../../../models/inventory";
 import User from "../../../models/user";
 import { getSession } from "next-auth/client";
 import handler from "../../handler";
@@ -54,6 +55,13 @@ const createBusiness = async (req, res) => {
     // save business
     const newBusiness = new Business(data);
     const resBusiness = await newBusiness.save();
+
+    // create others collection
+    const inventory = {
+      businessId: resBusiness._id,
+      inventory: [],
+    };
+    await new Inventory(inventory).save();
 
     // Update user's roles to Owner
     await User.findByIdAndUpdate(
