@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+nav {
+  display: flex;
+}
+
+.links {
+  display: flex;
+  list-style: none;
+}
+
+.links li {
+  margin-right: 1rem;
+}
