@@ -6,26 +6,37 @@ const Login = () => {
   const router = useRouter();
 
   if (session) {
-    router.push("/main");
+    router.push("/");
   }
 
   return (
-    <div>
+    <div className="body">
       {loadingSession && <p>Loading...</p>}
 
       {!session && (
-        <>
-          <p>Let's get Started.</p>
-          <button
-            onClick={() =>
-              signIn(null, {
-                callbackUrl: `${window.location.origin}/main`,
-              })
-            }
-          >
-            Sign In
-          </button>
-        </>
+        <div className="Auth center">
+          <div className="center-column">
+            <h1>Let's get Started.</h1>
+            <img src="/undraw_digital_nomad_re_w8uy.svg" alt="" />
+          </div>
+          <div className="pad">
+            <h2>
+              Ready to have an organized business?
+              <br />
+              Click the button below to sign in.
+            </h2>
+            <br />
+            <button
+              onClick={() =>
+                signIn(null, {
+                  callbackUrl: `${window.location.origin}/`,
+                })
+              }
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

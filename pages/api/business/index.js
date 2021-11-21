@@ -3,7 +3,6 @@ import Business from "../../../models/business";
 import Inventory from "../../../models/inventory";
 import Product from "../../../models/product";
 import Invoice from "../../../models/invoice";
-import Cash from "../../../models/cash";
 import User from "../../../models/user";
 import { getSession } from "next-auth/client";
 import handler from "../../handler";
@@ -75,14 +74,6 @@ const createBusiness = async (req, res) => {
       invoice: [],
     };
     await new Invoice(invoice).save();
-    //
-    const cash = {
-      businessId: resBusiness._id,
-      balance: 0,
-      expenses: [],
-      income: [],
-    };
-    await new Cash(cash).save();
 
     // Update user's roles to Owner
     await User.findByIdAndUpdate(

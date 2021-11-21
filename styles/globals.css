@@ -17,13 +17,181 @@ a {
 
 nav {
   display: flex;
+  background-color: #5e17eb;
+  color: white;
+  font-weight: 500;
+  justify-content: space-between;
+}
+
+.logo {
+  margin-left: calc(1rem + 1vw);
 }
 
 .links {
   display: flex;
   list-style: none;
+  align-items: center;
+  text-align: right;
 }
 
 .links li {
-  margin-right: 1rem;
+  margin-right: calc(1rem + 2vw);
+}
+
+.body {
+  padding: calc(3.25vw + 1rem);
+}
+
+button {
+  border: none;
+  padding: calc(0.25vw + 0.75rem);
+  font-size: calc(0.15vw + 1rem);
+  font-weight: bold;
+  background-color: #5e17eb;
+  color: white;
+  border-radius: calc(0.5vw);
+  cursor: pointer;
+  margin-right: calc(1vw + 0.5rem);
+}
+
+button:hover {
+  background-color: #eeeeee;
+  border: 1px solid #5e17eb;
+  color: #5e17eb;
+  transition: ease 250ms;
+}
+
+.Auth button {
+  padding: calc(0.25vw + 0.75rem);
+  font-size: calc(0.5vw + 1rem);
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Auth img {
+  margin: calc(1rem + 1vw);
+  width: calc(15vw + 10rem);
+}
+
+.Auth h2 {
+  font-weight: 500;
+}
+
+p {
+  font-size: calc(1rem + 0.25vw);
+}
+
+h1 {
+  font-size: calc(2rem + 1vw);
+}
+
+.pad {
+  padding: calc(1vw + 0.25rem);
+}
+
+.started img {
+  margin: calc(1rem + 1vw);
+  width: calc(15vw + 10rem);
+}
+
+.roles {
+  text-align: center;
+}
+
+.roles button {
+  margin: calc(2vw + 1rem) calc(1vw + 1rem);
+}
+
+form {
+  width: 100%;
+  background-color: #eeeeee;
+  padding: calc(1vw + 1rem) calc(2rem + 2.5vw);
+}
+
+label {
+  font-size: calc(0.25vw + 1rem);
+  margin-bottom: calc(1vw + 1rem);
+}
+
+input {
+  width: 100%;
+  height: calc(1.5vw + 1rem);
+  font-size: calc(1rem + 0.25vw);
+  padding: 1rem 0.25rem;
+}
+
+.owner h1 {
+  text-align: center;
+}
+
+.owner {
+  margin: 0 calc(10vw + 2rem);
+}
+
+li {
+  list-style: none;
+}
+
+.middle {
+  width: 100%;
+  background-color: #eeeeee;
+  padding: calc(1vw + 1rem) calc(2rem + 2.5vw);
+}
+
+.index li {
+  background-color: #eeeeee;
+  border-radius: 1vw;
+  padding: calc(1vw + 1rem);
+  margin-bottom: calc(1vw + 1rem);
+  font-weight: bold;
+}
+
+.addItem {
+  padding: calc(3.25vw + 1rem);
+}
+
+.addItem div {
+  width: 100%;
+  background-color: #eeeeee;
+  padding: calc(1vw + 1rem) calc(2rem + 2.5vw);
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  font-size: 1rem;
+  padding: 1vw;
+}
+
+ul {
+  background-color: #dddd;
+  padding: calc(1vw + 1rem);
+  width: 100%;
+}
+
+ul button {
+  font-size: 1rem;
+}
+
+div li {
+  border: 1px solid #5e17eb;
+  margin: calc(1rem + 1vw) 0;
+  padding: calc(1rem + 1vw);
+}
+
+nav li {
+  margin: 0;
+  padding: 0;
+  border: none;
 }

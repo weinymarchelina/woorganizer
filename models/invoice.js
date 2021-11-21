@@ -7,15 +7,8 @@ const InvoiceSchema = new mongoose.Schema(
       {
         customer: String,
         cashier: String,
-        items: [
-          {
-            name: String,
-            image: String,
-            price: Number,
-            capital: Number,
-            qty: Number,
-          },
-        ],
+        total: Number,
+        items: Array,
       },
       { timestamps: true },
     ],

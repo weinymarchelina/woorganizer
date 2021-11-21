@@ -5,27 +5,17 @@ const Navbar = () => {
   return (
     <nav>
       <div className="logo">
-        <Image src="/icon.png" width={100} height={100} />
+        <Image src="/icon.png" width={75} height={75} />
       </div>
       <div className="links">
         <li>
           <Link href="/">
-            <a>Landing</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/auth">
-            <a>Auth</a>
+            <a>Dashboard</a>
           </Link>
         </li>
         <li>
           <Link href="/settings">
             <a>Settings</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/main">
-            <a>Main</a>
           </Link>
         </li>
         <li>
@@ -36,11 +26,6 @@ const Navbar = () => {
         <li>
           <Link href="/main/product">
             <a>Products</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/main/cash">
-            <a>Cash Portal</a>
           </Link>
         </li>
         <li>

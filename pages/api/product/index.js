@@ -3,6 +3,7 @@ import Product from "../../../models/product";
 import User from "../../../models/user";
 import { getSession } from "next-auth/client";
 import handler from "../../handler";
+import Inventory from "../../../models/inventory";
 
 dbConnect();
 
@@ -39,10 +40,42 @@ const getItems = async (req, res) => {
 
     const items = data.product;
 
-    res.status(200).json({
-      items,
-      businessId,
-      msg: "Product succesfully returned",
+    //================================
+
+    // console.log(items);
+    const materials = items.map((product) => product.material);
+    // console.log(materials);
+    const materialIds = materials.map((product) => {
+      return product.map((thing) => thing._id);
+    });
+    // console.log(materialIds);
+    const combinedIds = [...new Set(materialIds.flat(1))];
+    // console.log(combinedIds);
+
+    await Inventory.findOne({ businessId }).then((result) => {
+      // console.log(result.inventory);
+      const inventory = result.inventory;
+
+      const materialsDone = combinedIds.map((id) => {
+        // console.log(inventory)
+        const [realItem] = inventory.filter((thing) => {
+          // console.log(thing._id);
+          const theId = thing._id;
+          return theId == id;
+        });
+
+        return {
+          materialId: id,
+          materialStock: realItem.qty,
+        };
+      });
+
+      return res.status(200).json({
+        items,
+        businessId,
+        materialsDone,
+        msg: "Product succesfully returned",
+      });
     });
   } catch (err) {
     console.log("Alert!");

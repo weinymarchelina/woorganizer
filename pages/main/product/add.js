@@ -7,6 +7,7 @@ import axios from "axios";
 const AddProduct = (session) => {
   const {
     isLoading,
+    business,
     space,
     storage,
     setStorage,
@@ -16,16 +17,15 @@ const AddProduct = (session) => {
   } = useCheck();
   const router = useRouter();
 
-  // if (!isLoading && !business && process.browser) {
-  //   router.push("/");
-  // }
+  if (!isLoading && !businessId && process.browser) {
+    router.push("/");
+  }
 
   const [name, setName] = useState();
   const [desc, setDesc] = useState();
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState();
   const [capital, setCapital] = useState(0);
-  const [qty, setQty] = useState();
   const [usedMaterial, setUsedMaterial] = useState([]);
 
   const [tab, setTab] = useState(false);
@@ -35,7 +35,7 @@ const AddProduct = (session) => {
   );
 
   const customId = (name) => {
-    return `${new Date()}${name}${Math.random() * 999}`;
+    return `${new Date().getTime()}${name}${Math.random() * 999}`;
   };
 
   const handleAdd = (e) => {
@@ -47,7 +47,7 @@ const AddProduct = (session) => {
       image,
       price,
       capital,
-      qty,
+      qty: undefined,
       active: true,
       material: usedMaterial,
       _id: customId(name),
@@ -59,7 +59,7 @@ const AddProduct = (session) => {
     setImage(null);
     setPrice("");
     setCapital(0);
-    setQty("");
+    // setQty("");
     setPlaceholder(`It should be more than 0`);
     setUsedMaterial([]);
     setDisplay(space);
@@ -91,6 +91,7 @@ const AddProduct = (session) => {
     const selectedItem = {
       name: theItem.name,
       capital: wholeCapital,
+      cap: theItem.capital,
       _id: theItem._id,
       needed: checkedNeeded,
     };
@@ -136,11 +137,17 @@ const AddProduct = (session) => {
     console.log("You used: ");
     console.log(usedMaterial);
 
-    const cost = parseFloat(selectedItem.capital);
+    const cost = parseFloat(selectedItem.capital) * parseFloat(select.needed);
     const currentCapital = capital;
     const result = parseFloat(currentCapital) - parseFloat(cost);
     setCapital(result);
     setPlaceholder(`It should be more than ${result}`);
+
+    console.log(currentCapital);
+    console.log(selectedItem.capital);
+    console.log(select.needed);
+    console.log(cost);
+    console.log(result);
   };
 
   const handleSubmit = async (e) => {
@@ -186,9 +193,9 @@ const AddProduct = (session) => {
   };
 
   return (
-    <>
+    <div className="addItem">
       {isLoading && <p>Loading...</p>}
-      {!isLoading && (
+      {!isLoading && businessId && (
         <div>
           <h1>Add Product</h1>
 
@@ -201,6 +208,7 @@ const AddProduct = (session) => {
               required
             />
             <br />
+            <br />
 
             <label>Description</label>
             <textarea
@@ -210,10 +218,12 @@ const AddProduct = (session) => {
             />
             <br />
 
-            <p>Capital: {capital}</p>
+            <p>Capital</p>
+            <p>{capital}</p>
             <br />
 
             <label>Price</label>
+            <br />
             <input
               type="number"
               value={price}
@@ -223,40 +233,25 @@ const AddProduct = (session) => {
               required
             />
             <br />
-
-            <label>Quantity</label>
-            <input
-              type="number"
-              value={qty}
-              min={1}
-              onChange={(e) => setQty(e.target.value)}
-              required
-            />
             <br />
 
-            {/* <label>Image</label>
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-        <br /> */}
-
-            <label>Materials</label>
+            <label>Materials needed for one product</label>
             <ul>
               {usedMaterial.map((item) => {
                 return (
                   <li key={item._id}>
                     <p>{item.name}</p>
-                    <p>{item.needed}</p>
-                    <p>Capital: {item.capital}</p>
+                    <p>Needed: {item.needed}</p>
+                    <p>Capital per pcs: {item.cap}</p>
+                    <p>Capital in total: {item.capital}</p>
 
-                    <button onClick={() => deleteMaterial(item)}>X</button>
+                    <button onClick={() => deleteMaterial(item)}>Delete</button>
                   </li>
                 );
               })}
             </ul>
-
+            <br />
+            <br />
             <button onClick={() => (tab ? setTab(false) : setTab(true))}>
               Select Material from Inventory
             </button>
@@ -270,8 +265,7 @@ const AddProduct = (session) => {
                   <li key={item._id}>
                     <p>{item.name}</p>
                     <p>{item.desc}</p>
-                    <p>Capital: {item.capital}</p>
-                    {/* <p>Stock: {item.qty}</p> */}
+                    <p>Capital per item: {item.capital}</p>
                     <label>Needed: </label>
                     <input
                       type="number"
@@ -280,6 +274,8 @@ const AddProduct = (session) => {
                       placeholder={"By default is 1"}
                       onChange={(e) => setNeeded(e.target.value)}
                     />
+                    <br />
+                    <br />
                     <button onClick={() => addMaterial(item)}>
                       Add Material
                     </button>
@@ -290,9 +286,10 @@ const AddProduct = (session) => {
           )}
           <form onSubmit={handleSubmit}>
             <ul>
-              <h2>
-                Current List <button type="submit">Add list to product</button>
-              </h2>
+              <h2>Current List</h2>
+              <br />
+              <br />
+              <button type="submit">Add list to product</button>
 
               {storage.map((item) => {
                 return (
@@ -305,7 +302,7 @@ const AddProduct = (session) => {
 
                     <p>Price: {item.price}</p>
                     <p>Capital: {item.capital}</p>
-                    <p>Stock: {item.qty}</p>
+                    {/* <p>Stock: {item.qty}</p> */}
                     <ul>
                       The materials:
                       {item.material.map((thing) => {
@@ -327,7 +324,7 @@ const AddProduct = (session) => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

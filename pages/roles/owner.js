@@ -35,7 +35,7 @@ const Owner = () => {
       setEmail("");
       setPassword("");
 
-      router.push("/main");
+      router.push("/");
     } catch (err) {
       console.log(err);
       throw new Error(err.response.data.msg);
@@ -43,15 +43,16 @@ const Owner = () => {
   };
 
   return (
-    <div>
+    <div className="body  owner">
       {isLoading && <p>Loading...</p>}
 
       {!isLoading && !business && (
         <main>
-          <h2>Business Form</h2>
+          <h1>Business Form</h1>
 
           <form onSubmit={handleSubmit}>
-            <label>Business' Name</label>
+            <label>Business's Name</label>
+            <br />
             <input
               type="text"
               value={name}
@@ -60,7 +61,9 @@ const Owner = () => {
             />
 
             <br />
+            <br />
             <label>Field</label>
+            <br />
             <input
               type="text"
               value={field}
@@ -69,7 +72,9 @@ const Owner = () => {
             />
 
             <br />
+            <br />
             <label>Phone Number</label>
+            <br />
             <input
               type="tel"
               value={phone}
@@ -78,7 +83,10 @@ const Owner = () => {
             />
 
             <br />
+            <br />
             <label>Email</label>
+            <br />
+
             <input
               type="email"
               value={email}
@@ -87,13 +95,18 @@ const Owner = () => {
             />
 
             <br />
+            <br />
             <label>Password</label>
+            <br />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <br />
+            <br />
 
             <button type="submit">Create</button>
           </form>

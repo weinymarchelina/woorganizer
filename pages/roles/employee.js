@@ -8,7 +8,7 @@ const Employee = () => {
   const { business, isLoading } = useCheck();
   const router = useRouter();
   if (business) {
-    router.push("/main");
+    router.push("/");
   }
 
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ const Employee = () => {
       )}
 
       {!isLoading && !business && (
-        <div>
+        <div className="body owner">
           <h1>Join to your business' account</h1>
 
           <form onSubmit={handleSubmit}>
@@ -55,6 +55,9 @@ const Employee = () => {
             />
 
             <br />
+            <br />
+
+            <br />
             <label>Password</label>
             <input
               type="password"
@@ -62,6 +65,9 @@ const Employee = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <br />
+            <br />
 
             <button type="submit">Join</button>
           </form>

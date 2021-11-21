@@ -5,16 +5,16 @@ const NotFound = () => {
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
-      router.push("/main");
+      router.push("/");
     }, 3000);
   }, []);
 
   return (
-    <div className="not-found">
+    <div className="body">
       <h1>Page not found!</h1>
       <p>
         Going back to
-        <Link href="/main">
+        <Link href="/">
           <a> main page </a>
         </Link>
         in 3 seconds...

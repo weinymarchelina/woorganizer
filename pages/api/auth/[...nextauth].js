@@ -9,7 +9,6 @@ dbConnect();
 export default NextAuth({
   session: {
     jwt: true,
-    // maxAge: 30 * 24 * 60 * 60,
   },
   providers: [
     Providers.Google({
@@ -21,11 +20,15 @@ export default NextAuth({
     Providers.Credentials({
       name: "Credentials",
       credentials: {
-        name: { label: "Name", type: "text", placeholder: "John Deacon" },
+        name: {
+          label: "Name",
+          type: "text",
+          placeholder: "New user? Input name here",
+        },
         email: {
           label: "Email",
           type: "email ",
-          placeholder: "johndeacon@queen.com",
+          placeholder: "entrepreneur@cool.com",
         },
         password: { label: "Password", type: "password" },
       },

@@ -12,7 +12,7 @@ const BusinessProfile = ({ session }) => {
   const router = useRouter();
 
   if (!isLoading && !business) {
-    router.push("/main");
+    router.push("/");
   }
 
   const handleKick = async () => {
@@ -33,15 +33,13 @@ const BusinessProfile = ({ session }) => {
   };
 
   return (
-    <div>
+    <div className="body">
       {isLoading && <p>Loading...</p>}
       {!isLoading && business && (
-        <div>
+        <div className="middle">
           <h1>Your Business</h1>
 
-          <div>
-            <img src="" alt="" />
-          </div>
+          <br />
 
           <p>Name</p>
           <p>{business.name}</p>
@@ -64,9 +62,9 @@ const BusinessProfile = ({ session }) => {
             {business.team.map((member) => {
               return (
                 <li key={member.userId}>
-                  <p>{member.name}</p>
-                  <img src={member.image} alt="" />
-                  <p>{member.role}</p>
+                  <p>
+                    {member.name}: {member.role}
+                  </p>
                   {role === "Owner" && member.role === "Employee" && (
                     <button onClick={() => setWantKick(member)}>
                       Kick Employee

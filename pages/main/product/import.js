@@ -16,26 +16,22 @@ const ImportProduct = (session) => {
   } = useCheck();
   const router = useRouter();
 
-  // if (!isLoading && !business && process.browser) {
-  //   router.push("/");
-  // }
+  if (!isLoading && !businessId && process.browser) {
+    router.push("/");
+  }
 
   const [name, setName] = useState();
   const [desc, setDesc] = useState();
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState();
   const [capital, setCapital] = useState(0);
-  const [qty, setQty] = useState();
+  // const [qty, setQty] = useState();
   const [itemId, setItemId] = useState(null);
 
   const [tab, setTab] = useState(false);
   const [placeholder, setPlaceholder] = useState(
     `It should be more than ${capital}`
   );
-
-  const customId = (name) => {
-    return `${new Date()}${name}${Math.random() * 999}`;
-  };
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -46,9 +42,16 @@ const ImportProduct = (session) => {
       image,
       price,
       capital,
-      qty,
+      qty: undefined,
       active: true,
-      material: [],
+      material: [
+        {
+          name: name,
+          capital: capital,
+          needed: 1,
+          _id: itemId,
+        },
+      ],
       _id: itemId,
     };
     storage.push(newItem);
@@ -58,7 +61,7 @@ const ImportProduct = (session) => {
     setImage(null);
     setPrice("");
     setCapital(0);
-    setQty("");
+    // setQty("");
     setItemId("");
     setPlaceholder(`It should be more than 0`);
   };
@@ -86,7 +89,7 @@ const ImportProduct = (session) => {
     setDesc(select.desc);
     setImage(select.image);
     setCapital(select.capital);
-    setQty(select.qty);
+    // setQty(select.qty);
     setPlaceholder(`It should be more than ${capital}`);
     setPrice(price);
 
@@ -106,7 +109,7 @@ const ImportProduct = (session) => {
     setImage(null);
     setPrice("");
     setCapital(0);
-    setQty("");
+    // setQty("");
     setPlaceholder(`It should be more than 0`);
 
     const [selectedItem] = space.filter((item) => item._id === itemId);
@@ -158,19 +161,22 @@ const ImportProduct = (session) => {
   return (
     <>
       {isLoading && <p>Loading...</p>}
-      {!isLoading && (
-        <div>
+      {!isLoading && businessId && (
+        <div className="addItem">
           <h1>Import Product</h1>
 
           <form onSubmit={handleAdd}>
-            <p>Name: {name}</p>
-
+            <p>Name</p>
+            <p>{name}</p>
+            <br />
             <p>Description</p>
             <p>{desc}</p>
-
-            <p>Capital: {capital}</p>
-
+            <br />
+            <p>Capital</p>
+            <p> {capital}</p>
+            <br />
             <label>Price</label>
+            <br />
             <input
               type="number"
               value={price}
@@ -180,11 +186,8 @@ const ImportProduct = (session) => {
               required
             />
             <br />
-
-            <p>Quantity: {qty}</p>
-
-            {/* <img src={image} alt=""/> */}
-
+            <br />
+            <br />
             <button onClick={() => (tab ? setTab(false) : setTab(true))}>
               Select Item from Inventory
             </button>
@@ -204,8 +207,10 @@ const ImportProduct = (session) => {
                     <p>{item.name}</p>
                     <p>{item.desc}</p>
                     <p>Capital: {item.capital}</p>
-                    <p>Stock: {item.qty}</p>
-                    <button onClick={() => addItem(item)}>Add Item</button>
+                    {/* <p>Stock: {item.qty}</p> */}
+                    {!name && (
+                      <button onClick={() => addItem(item)}>Add Item</button>
+                    )}
                   </li>
                 );
               })}
@@ -213,9 +218,7 @@ const ImportProduct = (session) => {
           )}
           <form onSubmit={handleSubmit}>
             <ul>
-              <h2>
-                Current List <button type="submit">Add list to product</button>
-              </h2>
+              <h2>Current List</h2>
 
               {storage.map((item) => {
                 return (
@@ -228,7 +231,7 @@ const ImportProduct = (session) => {
 
                     <p>Price: {item.price}</p>
                     <p>Capital: {item.capital}</p>
-                    <p>Stock: {item.qty}</p>
+                    {/* <p>Stock: {item.qty}</p> */}
 
                     <button onClick={() => handleDelete(item._id)}>
                       Delete
@@ -236,6 +239,9 @@ const ImportProduct = (session) => {
                   </li>
                 );
               })}
+
+              <button type="submit">Add list to product</button>
+              <br />
             </ul>
           </form>
         </div>

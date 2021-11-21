@@ -11,7 +11,7 @@ export default function Settings({ session }) {
   console.log(user);
 
   return (
-    <div>
+    <div className="addItem">
       <h1>Settings</h1>
 
       {business && (

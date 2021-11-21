@@ -8,11 +8,11 @@ export default function Roles({ user }) {
   const router = useRouter();
 
   if (business) {
-    router.push("/main");
+    router.push("/");
   }
 
   return (
-    <div>
+    <div className="body center roles">
       {isLoading && <p>Loading...</p>}
       {!isLoading && !business && (
         <div>

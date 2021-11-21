@@ -91,14 +91,16 @@ const AddThings = (session) => {
   };
 
   return (
-    <>
+    <div>
       {isLoading && <p>Loading...</p>}
       {!isLoading && (
-        <div>
-          <h1>AddThings</h1>
+        <div className="addItem">
+          <h1>Add Material</h1>
 
           <div>
             <label>Name</label>
+            <br />
+
             <input
               type="text"
               value={name}
@@ -106,16 +108,18 @@ const AddThings = (session) => {
               required
             />
             <br />
-
+            <br />
             <label>Description</label>
+            <br />
             <textarea
               type="text"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
             <br />
-
+            <br />
             <label>Capital</label>
+            <br />
             <input
               type="number"
               value={capital}
@@ -123,8 +127,9 @@ const AddThings = (session) => {
               required
             />
             <br />
-
+            <br />
             <label>Quantity</label>
+            <br />
             <input
               type="number"
               value={qty}
@@ -132,23 +137,12 @@ const AddThings = (session) => {
               required
             />
             <br />
-
-            {/* <label>Image</label>
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-        <br /> */}
-
+            <br />
             <button onClick={handleAdd}>Add</button>
           </div>
           <form onSubmit={handleSubmit}>
             <ul>
-              <h2>
-                Current List{" "}
-                <button type="submit">Add list to inventory</button>
-              </h2>
+              <h2>Current List</h2>
 
               {storage.map((item) => {
                 return (
@@ -168,11 +162,15 @@ const AddThings = (session) => {
                   </li>
                 );
               })}
+
+              <br />
+              <br />
+              <button type="submit">Add list to inventory</button>
             </ul>
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
