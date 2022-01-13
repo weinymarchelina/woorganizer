@@ -51,7 +51,7 @@ const Owner = () => {
           <h1>Business Form</h1>
 
           <form onSubmit={handleSubmit}>
-            <label>Business's Name</label>
+            <label>{`Business's Name`}</label>
             <br />
             <input
               type="text"

@@ -17,15 +17,13 @@ export default function Roles({ user }) {
       {!isLoading && !business && (
         <div>
           <h1>Decide your Roles</h1>
-          <p>
-            Welcome <b>{user.name}</b>, let's set your roles!
-          </p>
+          <p>{`Welcome <b>{user.name}</b>, let's set your roles!`}</p>
           <p>Are you a business owner or an employee?</p>
           <button>
-            <Link href="/roles/owner">I'm a business owner</Link>
+            <Link href="/roles/owner">{`I'm a business owner`}</Link>
           </button>
           <button>
-            <Link href="/roles/employee">I'm an employee</Link>
+            <Link href="/roles/employee">{`I'm an employee`}</Link>
           </button>
         </div>
       )}

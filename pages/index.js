@@ -38,7 +38,7 @@ export default function Main({ user }) {
             <img src="/undraw_add_information_j2wg.svg" alt="" />
           </div>
           <div className="pad">
-            <h2>Hi, {user.name}, let's get you started! </h2>
+            <h2>{`Hi, {user.name}, let's get you started!`}</h2>
             <button>
               <Link href="/roles">Set your roles here!</Link>
             </button>

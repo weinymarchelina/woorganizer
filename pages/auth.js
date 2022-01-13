@@ -16,7 +16,7 @@ const Login = () => {
       {!session && (
         <div className="Auth center">
           <div className="center-column">
-            <h1>Let's get Started.</h1>
+            <h1>{`Let's get Started.`}</h1>
             <img src="/undraw_digital_nomad_re_w8uy.svg" alt="Undraw" />
           </div>
           <div className="pad">

@@ -43,10 +43,10 @@ const Employee = () => {
 
       {!isLoading && !business && (
         <div className="body owner">
-          <h1>Join to your business' account</h1>
+          <h1>{`Join to your business' account`}</h1>
 
           <form onSubmit={handleSubmit}>
-            <label>Business' Email</label>
+            <label>{`Business' Email`}</label>
             <input
               type="email"
               value={email}
