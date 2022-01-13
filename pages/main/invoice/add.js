@@ -108,6 +108,7 @@ const AddInvoice = ({ session }) => {
             <div>
               <h2>Product List</h2>
               {!isLoading &&
+                display &&
                 display.map((item) => {
                   return (
                     <li key={item._id}>
@@ -123,6 +124,8 @@ const AddInvoice = ({ session }) => {
                         min="1"
                         onChange={(e) => setNeeded(e.target.value)}
                       />
+                      <br />
+                      <br />
                       <button onClick={() => addProduct(item)}>
                         Add Product
                       </button>

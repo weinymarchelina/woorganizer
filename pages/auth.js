@@ -17,7 +17,7 @@ const Login = () => {
         <div className="Auth center">
           <div className="center-column">
             <h1>Let's get Started.</h1>
-            <img src="/undraw_digital_nomad_re_w8uy.svg" alt="" />
+            <img src="/undraw_digital_nomad_re_w8uy.svg" alt="Undraw" />
           </div>
           <div className="pad">
             <h2>
@@ -33,7 +33,7 @@ const Login = () => {
                 })
               }
             >
-              Sign In
+              {"Sign In"}
             </button>
           </div>
         </div>

@@ -200,7 +200,7 @@ const Product = (session) => {
               {warning && (
                 <div>
                   {warning.map((obj) => {
-                    return <p>{obj.theMsg}</p>;
+                    return <p key={obj.theMsg}>{obj.theMsg}</p>;
                   })}
                 </div>
               )}
